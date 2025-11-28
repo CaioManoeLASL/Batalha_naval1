@@ -1,14 +1,7 @@
-
-// ---------------------------------------------
-// Função "no-op" para o modo fácil
-// ---------------------------------------------
 function AI_NoOp_OnResult(_ai, _board, _x, _y, _hit) {
     // não faz nada
 }
 
-// ---------------------------------------------
-// FÁCIL – tiro totalmente aleatório
-// ---------------------------------------------
 function AI_Easy_Create() {
     return {
         difficulty    : "facil",
@@ -34,14 +27,10 @@ function AI_Easy_ChooseTarget(_ai, _board) {
     return [0, 0];
 }
 
-// compatibilidade com nome antigo, se usar em algum lugar
 function AI_Random_Create() {
     return AI_Easy_Create();
 }
 
-// ---------------------------------------------
-// MÉDIO – aleatório + caça ao redor de acertos
-// ---------------------------------------------
 function AI_Medium_Create() {
 
     var list = ds_list_create();
@@ -94,9 +83,6 @@ function AI_Medium_OnShotResult(_ai, _board, _x, _y, _hit) {
     }
 }
 
-// ---------------------------------------------
-// DIFÍCIL – igual médio, mas com padrão "xadrez"
-// ---------------------------------------------
 function AI_Hard_Create() {
 
     var list = ds_list_create();
