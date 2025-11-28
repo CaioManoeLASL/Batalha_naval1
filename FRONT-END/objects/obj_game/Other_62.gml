@@ -1,32 +1,29 @@
-/// Async - HTTP do obj_game
+/// Async - HTTP
 
-// pega os dados básicos da resposta
-var req_id = async_load[? "id"];      // id da requisição
-var st     = async_load[? "status"];  // 0 = terminou, <0 = erro de rede
-var body   = async_load[? "result"];  // texto vindo do servidor (se tiver)
+var _id     = ds_map_find_value(async_load, "id");
+var _status = ds_map_find_value(async_load, "status");
+var _result = ds_map_find_value(async_load, "result");
 
-show_debug_message("HTTP EVENT -> req_id=" + string(req_id) + " status=" + string(st));
+show_debug_message("HTTP EVENT -> req_id=" + string(_id) + " status=" + string(_status));
 
-// só queremos tratar a resposta do /ping
-if (req_id != global.req_ping) {
-    exit;
+// resposta da /game/start
+if (_id == global.req_start) {
+
+    if (_status == 200) {
+        show_debug_message("Start OK. Corpo = " + _result);
+
+        var json = json_decode(_result);
+
+        game.match_id   = json[? "id"];
+        game.board_size = json[? "boardSize"];
+
+        // se quiser, você pode guardar os tabuleiros depois:
+        // game.player_board_backend = json[? "playerBoard"];
+        // game.enemy_board_backend  = json[? "enemyBoard"];
+
+        ds_map_destroy(json);
+
+    } else {
+        show_debug_message("Erro ao iniciar jogo: status = " + string(_status));
+    }
 }
-
-// se deu erro de rede
-if (st < 0) {
-    show_debug_message("ERRO DE REDE. status = " + string(st));
-    exit;
-}
-
-// se ainda está transferindo (download de arquivo grande; não é nosso caso)
-if (st == 1) {
-    show_debug_message("Baixando... (status=1)");
-    exit;
-}
-
-// se chegou aqui, st == 0  → requisição terminou
-// agora pegamos o código HTTP de verdade
-var http_code = async_load[? "http_status"]; // 200, 404, etc. (quando disponível)
-
-show_debug_message("HTTP terminou. http_status = " + string(http_code));
-show_debug_message("Corpo = " + string(body));

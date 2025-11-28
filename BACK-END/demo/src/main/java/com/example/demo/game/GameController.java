@@ -1,30 +1,32 @@
 package com.example.demo.game;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/game")
 public class GameController {
 
-    private final GameService gameService;
+    private final com.example.demo.game.GameService gameService;
 
-    public GameController(GameService gameService) {
+    // injeção via construtor
+    public GameController(com.example.demo.game.GameService gameService) {
         this.gameService = gameService;
     }
 
-    // POST /game/start?playerName=Wagner
-    @GetMapping("/start")
-    public GameState startGame(@RequestParam String playerName) {
+    @GetMapping("/game/start")
+    public GameState start(@RequestParam String playerName) {
         return gameService.startNewGame(playerName);
     }
 
-    // GET /game/state/1
-    @GetMapping("/state/{id}")
-    public GameState getState(@PathVariable Long id) {
-        GameState state = gameService.getGame(id);
-        if (state == null) {
-            throw new RuntimeException("Partida nao encontrada: " + id);
+    @PostMapping("/game/{id}/move")
+    public ResponseEntity<MoveResult> move(@PathVariable Long id,
+                                           @RequestBody MoveRequest request) {
+
+        MoveResult result = gameService.playerMove(id, request.getX(), request.getY());
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return state;
+        return ResponseEntity.ok(result);
     }
 }

@@ -1,28 +1,38 @@
-/// @function scr_url_encode(text)
-/// @param text
+function src_url_encode() {
+    return "";
+}
 
-function scr_url_encode(text)
-{
+function url_encode(str) {
+    var map = {
+        " " : "%20",
+        "!" : "%21",
+        "\"" : "%22",
+        "#" : "%23",
+        "%" : "%25",
+        "&" : "%26",
+        "'" : "%27",
+        "(" : "%28",
+        ")" : "%29",
+        "+" : "%2B",
+        "," : "%2C",
+        "/" : "%2F",
+        ":" : "%3A",
+        ";" : "%3B",
+        "=" : "%3D",
+        "?" : "%3F",
+        "@" : "%40"
+    };
+
     var out = "";
-    var c;
+    var len = string_length(str);
 
-    for (var i = 1; i <= string_length(text); i++)
-    {
-        c = ord(string_char_at(text, i));
-
-        // Letras, números e _ - . ~ não precisam de encoding
-        if (
-            (c >= 48 && c <= 57)  || // 0-9
-            (c >= 65 && c <= 90)  || // A-Z
-            (c >= 97 && c <= 122) || // a-z
-            c == 45 || c == 46 || c == 95 || c == 126 // - . _ ~
-        ) {
-            out += chr(c);
-        }
-        else {
-            out += "%" + string_format(c, 2, 0);
+    for (var i = 1; i <= len; i++) {
+        var ch = string_char_at(str, i);
+        if (ds_map_exists(map, ch)) {
+            out += map[? ch];
+        } else {
+            out += ch;
         }
     }
-
     return out;
 }

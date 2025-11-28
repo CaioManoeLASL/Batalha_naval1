@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Service  // <- AGORA PODE VOLTAR
+@Service
 public class GameService {
 
     private final Map<Long, GameState> games = new ConcurrentHashMap<>();
@@ -17,13 +17,19 @@ public class GameService {
     public GameState startNewGame(String playerName) {
         Long id = sequence.getAndIncrement();
         GameState state = new GameState(id, playerName, BOARD_SIZE);
-
-        // aqui depois vamos gerar os navios, etc
         games.put(id, state);
         return state;
     }
 
     public GameState getGame(Long id) {
         return games.get(id);
+    }
+
+    public MoveResult playerMove(Long gameId, int x, int y) {
+        GameState state = games.get(gameId);
+        if (state == null) {
+            return null; // depois podemos trocar por exceção com 404
+        }
+        return state.shootAtEnemy(x, y);
     }
 }
