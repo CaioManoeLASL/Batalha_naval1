@@ -44,6 +44,7 @@
     {"id":{"name":"src_game","path":"scripts/src_game/src_game.yy",},},
     {"id":{"name":"src_menu","path":"scripts/src_menu/src_menu.yy",},},
     {"id":{"name":"src_render","path":"scripts/src_render/src_render.yy",},},
+    {"id":{"name":"src_url_encode","path":"scripts/src_url_encode/src_url_encode.yy",},},
     {"id":{"name":"Sprite1","path":"sprites/Sprite1/Sprite1.yy",},},
   ],
   "resourceType":"GMProject",

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"src_url_encode",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"src_url_encode",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
